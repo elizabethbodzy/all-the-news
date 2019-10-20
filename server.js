@@ -11,6 +11,10 @@ var PORT = 3000;
 
 var app = express();
 
+var router = express.Router();
+
+require("./config/routes")(router);
+
 app.engine("handlebars", exphbs({
     defaultLayout: "main"
 }));
@@ -20,7 +24,7 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 
-// app.use(router);
+app.use(router);
 
 // Configure middleware
 

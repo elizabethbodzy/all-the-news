@@ -1,0 +1,49 @@
+#menu-bar{
+    background-color:rgb(1, 1, 63);
+  }
+  #ms{
+    color:white;
+    padding:10px;
+  }
+  #home{
+    padding: 20px;
+    color:white;
+  }
+  
+  #savedArticles{
+    padding:20px;
+    color:white;
+  }
+  
+  #btn-holder{
+    padding:10px;
+  }
+  
+  #imageHolder{
+    background-image: url("../images/paper.jpeg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height:100%;
+    padding:200px;
+  }
+  
+  #nyt-title{
+    text-align: center; 
+    color:white; 
+    font-family: 'Times New Roman';
+  }
+  #page-name{
+    text-align:center; 
+    color:white;
+    font-family: 'Times New Roman';
+  }
+
+  .btn {
+      background-color: grey;
+      color: white;
+      margin-top: 3px;
+  }
+
+  .title {
+      font-size: 100px;
+  }

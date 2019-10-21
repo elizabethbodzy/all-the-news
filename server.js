@@ -1,82 +1,61 @@
+// Dependencies
 var express = require("express");
-var exphbs = require("express-handlebars")
-var logger = require("morgan");
+var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
-var bodyParser = require("body-parser")
+var exphbs = require("express-handlebars");
+// Requiring our Note and Article models
+var Note = require("./models/Note.js");
+var Article = require("./models/Article.js");
+// Set mongoose to leverage built in JavaScript ES6 Promises
+mongoose.Promise = Promise;
 
-// var axios = require("axios");
-// var cheerio = require("cheerio");
-
-var PORT = 3000;
-
+// Initialize Express
 var app = express();
 
-var router = express.Router();
-
-require("./config/routes")(router);
-
-app.engine("handlebars", exphbs({
-    defaultLayout: "main"
-}));
-app.set("view engine", "handlebars");
-
+// Use body parser with our app
 app.use(bodyParser.urlencoded({
-    extended: false
+   extended: false
 }));
 
-app.use(router);
+// Make public a static dir
+app.use(express.static(process.cwd() + "/public"));
 
-// Configure middleware
+// Database configuration with mongoose
+var databaseUri = "mongodb://localhost/mongoosearticles";
 
-// Use morgan logger for logging requests
-app.use(logger("dev"));
-// Parse request body as JSON
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-// Make public a static folder
-app.use(express.static("public"));
+if (process.env.MONGODB_URI) {
+  mongoose.connect(process.env.MONGODB_URI);
+} else {
+  mongoose.connect(databaseUri);
+}
 
-var db = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines"
-mongoose.connect(db, function(error) {
-    if (error) {
-        console.log(error);
-    } else {
-        console.log("mongoose connection is successful")
-    }
+var db = mongoose.connection;
+
+db.on("error", function(error) {
+  console.log("Mongoose Error: ", error);
 });
 
-// app.get("/scrape", function(req, res) {
-//     axios.get("https://www.nytimes.com/section/sports").then(function (response) {
-//     // Then, we load that into cheerio and save it to $ for a shorthand selector
-//     var $ = cheerio.load(response.data);
-//     // console.log(response.data)
-//     var results = new Array();
+db.once("open", function() {
+  console.log("Mongoose connection sucessful.");
+});
 
-//     $("article h2").each(function(i, element) {
-//         //Save empty object result
-//         var result = {};
+//set engine and default for handlebars
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 
-//         result.title = $(this)
-//         .children("a")
-//         .text();
+// Import routes and give the server access to them.
+var router = express.Router();
 
-//         result.link = $(this)
-//         .children("a")
-//         .attr("href");
+// Require routes file pass router object
+require("./config/routes")(router);
 
-//         // db.Article.create(result)
-//         // .then(function(dbArticle) {
-//         //     console.log(dbArticle);
-//         // })
-//         // .catch(function(err) {
-//         //     console.log(err);
-//         // });
-//     });
+// Have every request go through router middlewar
+app.use(router);
 
-//     res.send("Scrape Complete!")
-// });
-// });
+//set port
+var port = process.env.PORT || 3005;
 
-app.listen(PORT, function () {
-    console.log("App running on port " + PORT + "!");
-  });
+//setup listener
+app.listen(port, function() {
+  console.log("app running on port " + port);
+});

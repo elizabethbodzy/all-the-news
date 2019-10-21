@@ -1,32 +1,55 @@
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="/">Saved Articles</a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li class="active"><a href="/">Home</a></li>
-            <li><a href="/saved">Saved Articles</a></li>
-        </ul>
-    </div>
-</nav>
-<div class="jumbotron text-center">
-    <div class="overlay"></div>
-    <div class="background-image"></div>
-    <div class="caption">
-        <h1> Saved Articles </h1>
-        <p> Your Saved Articles </p>
-    </div>
-</div>
-<div class="container-fluid article-container"></div>
+    <div class="savedArt articles">
+    	<ul>
+    		{{#each articles }}
+    		<div class="panel panel-default">
+    		  <div class="panel-heading">
+    		    <h3 class="panel-title">{{title}}</h3>
+    		  </div>
+    		  <div class="panel-body">
+    		    <a class="artLink" href={{link}}>{{link}}</a>
+            <!--ADD NOTES button with a data-value of the news articles id-->
 
-<footer class="footer">
-    <div class="container">
-        <p> New York Times Mongo Scraper </p>
-        <a href="https://github.com/elizabethbodzy/all-the-news"> Mongo Scraper Github </a>
-    </div>
-</footer>
+    		      <button data-id={{_id}} class="btn btn-danger pull-right removeSaved">Remove from Saved</button>
 
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudfare.com/ajax/libs/bootbox.js/4.4.0.bootbox.min.js"></script>
-<script src="/public/javascript/saved.js"></script>
+              <button data-id={{_id}} class="btn btn-primary pull-right saved-buttons"  id="addCheckNote" data-toggle="modal" data-target="#noteModal" data-value="{{this._id}}">View/Add Notes</button>
+    		  </div>
+    		</div>
+    		<br />
+    		<br />
+
+
+      <!-- Modal -->
+      <div id="noteModal" class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="noteModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <!--title including the id of the current article-->
+                      <h4 class="modal-title" id=""><b>Notes:</b></h4>
+                      <!--where notes will be displayed-->
+                      <div>
+                          <ul id="notesBody">
+
+                          </ul>
+                      </div>
+                  </div>
+                  <div class="modal-body">
+                      <div class="form-group">
+
+                          <label for="exampleTextarea">Enter New Note</label>
+                          <!--enter note text-->
+                          <textarea class="form-control" id="notestext" rows="3"></textarea>
+                      </div>
+                      <div><!--enter saved notes here--></div>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button data-id={{_id}}  data-dismiss="modal" id="saveButton" class="btn btn-primary savenote">Save changes</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      {{/each}}
+    </ul>
+
+    </div>

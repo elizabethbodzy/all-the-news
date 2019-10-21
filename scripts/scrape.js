@@ -1,32 +1,32 @@
+// Our scraping tools
 var request = require("request");
 var cheerio = require("cheerio");
 
-var scrape = function(cb) {
+//scrape articles from the New YorK Times
+var scrape = function(callback) {
 
-    request("http://www.nytimes.com", function(err, res, body) {
+  var articlesArr = [];
 
-        var $ = cheerio.load(body);
+  request("https://www.nytimes.com/", function(error, response, html) {
 
-        var articles = [];
+      var $ = cheerio.load(html);
 
-        $(".theme-summary").each(function(i, element) {
 
-            var head = $(this).children(".story-heading").text().trim();
-            var sum = $(this).children(".summary").text().trim();
+      $("h2.story-heading").each(function(i, element) {
 
-            if (head && sum) {
-                var headNeat = head.replace(/(\r\n|\n|\r|\t|\s+)/gm, " ").trim();
-                var sumNeat = head.replace(/(\r\n|\n|\r|\t|\s+)/gm, " ").trim();
+          var result = {};
 
-                var dataToAdd = {
-                    headline: headNeat,
-                    summary: sumNeat
-                };
-                articles.push(dataToAdd)
-            }
-        });
-        cb(articles);
-    });
+          // Add the text and href of every link, and save them as properties of the result object
+          result.title = $(this).children("a").text();
+          result.link = $(this).children("a").attr("href");
+
+          if (result.title !== "" && result.link !== "") {
+              articlesArr.push(result);
+          }
+      });
+      callback(articlesArr);
+  });
+
 };
 
 module.exports = scrape;

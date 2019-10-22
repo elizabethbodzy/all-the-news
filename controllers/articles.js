@@ -5,17 +5,18 @@ module.exports = {
   fetch: function(callback) {
 
     scrape(function(data) {
+        // console.log(data);
 
-      var articlesArr = data;
+    //    const articlesArrary = data;
       // Make sure each article object has a date and is not saved by default
-      for (var i = 0; i < articlesArr.length; i++) {
-        articlesArr[i].date = new Date();
-        articlesArr[i].saved = false;
-        articlesArr[i].note = [];
+      for (var i = 0; i < data.length; i++) {
+        data[i].date = new Date();
+        data[i].saved = false;
+        data[i].note = [];
       }
 
       //filters the duplicate articles because the article model says the title must be unique
-        Article.collection.insertMany(articlesArr, { ordered: false }, function(err, docs) {
+        Article.collection.insertMany(data, { ordered: false }, function(err, docs) {
           callback(err, docs);
         });
     });
@@ -26,7 +27,8 @@ module.exports = {
       .sort({
         _id: -1
       })
-      .exec(function(err, doc) {
+      .then(function( doc) {
+          console.log(doc)
         //send saved articles back to routes to be rendered
         cb(doc);
       });

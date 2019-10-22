@@ -1,17 +1,47 @@
-<div class="articles container">
-
-    {{#each articles }}
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">{{title}}</h3>
-      </div>
-      <div class="panel-body">
-        <a class="artLink" href={{link}}>{{link}}</a>
-        <button data-id={{_id}} class="btn btn-danger pull-right save-article">Save Article</button>
-      </div>
+{{!-- <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">Mongo Scraper</a>
+        </div> --}}
+        {{!-- <ul class="nav navbar-nav">
+            <li class="active"><a href="/">Home</a></li>
+            <li><a href="/saved">Saved Articles</a></li>
+            <li><a class="btn scrape-new">SCRAPE NEW ARTICLES!</a></li>
+        </ul> --}}
+    {{!-- </div>
+</nav> --}}
+{{!-- <div class="jumbotron text-center">
+    <div class="overlay"></div>
+    <div class="background-image"></div>
+    <div class="caption">
+        <h1 class="title"> Mongo Scraper </h1>
+        <p> New York Times Edition </p>
     </div>
-    <br />
-    <br />
-    {{/each}}
+</div> --}}
+{{!-- <div class="container-fluid article-container"></div>
 
-</div>
+<footer class="footer">
+    <div class="container">
+        <p> New York Times Mongo Scraper </p>
+        <a href="https://github.com/elizabethbodzy/all-the-news"> Mongo Scraper Github </a>
+    </div>
+</footer> --}}
+
+{{{ articles }}}
+    {{!-- {{#each articles}}
+    <div data-_id={{this._id}} class="card">
+      <div class="card-header">
+        <h3>
+          <a class="article-link" target="_blank" rel="noopener noreferrer" href="{{this.url}}">{{this.headline}}</a>
+          <a class="btn btn-danger delete">Delete From Saved</a>
+          <a class="btn btn-info notes">Article Notes</a>
+        </h3>
+      </div>
+      <div class="card-body">{{this.summary}}</div>
+    </div>
+  {{/each}} --}}
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudfare.com/ajax/libs/bootbox.js/4.4.0.bootbox.min.js"></script>
+<script src="/javascript/index.js"></script>

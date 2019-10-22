@@ -42,7 +42,8 @@ module.exports = function(router) {
   //retrieves the saved articles
   router.get("/saved", function(req, res) {
 
-      articlesController.get({saved: true}, function(data) {
+      articlesController.get({saved: false}, function(data) {
+          console.log(data);
           var hbsObject = {
             articles: data
           };
